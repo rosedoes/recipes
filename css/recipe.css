@@ -1,0 +1,4 @@
+/* Allows text to flow into columns */
+.text-col-2 {
+	column-count: 2;
+}
