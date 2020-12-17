@@ -18,7 +18,7 @@ $recipeNotes = validate($_POST['recipeNotes']);
 /* Create new file from recipe title */
 $tempFileName = preg_replace("/\s+/", "", $recipeTitle);
 if (file_exists('../pages/'.$tempFileName.'.php')) {
-	$tempFileName .= rand(1,200);
+	$tempFileName .= rand();
 }
 $fileName = $tempFileName .".php";
 $newFile = fopen('../pages/'.$fileName, 'w') or die("can't open file");
