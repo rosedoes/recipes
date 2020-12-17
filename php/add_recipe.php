@@ -13,7 +13,6 @@ $recipeTitle = validate($_POST['recipeTitle']);
 $prep = validate($_POST['recipePrep']);
 $prep = htmlspecialchars_decode($prep); /* Allow TinyMCE html formatting */
 $recipeTags = $_POST['recipeTags']; /* tTags are hardcoded as checkbox items */
-$recipeNotes = validate($_POST['recipeNotes']);
 
 /* Create new file from recipe title */
 $tempFileName = preg_replace("/\s+/", "", $recipeTitle);
@@ -30,11 +29,10 @@ $output .= "<link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/b
 $output .= "<link rel=\"stylesheet\" href=\"../css/recipe.css\">";
 $output .= "<title>".$recipeTitle."</title></head><body>";
 $output .= "<div class=\"container\">";
-$output .= "<h2>".$recipeTitle."</h2>";
-$output .= "<small>".$recipeNotes."</small>";
-$output .= "<h3>How it's made</h3>";
+$output .= "<h2 class=\"text-center\">".$recipeTitle."</h2>";
+$output .= "<p class=\"h3\">How it's made</p>";
 $output .= $prep;
-$output .= "<h4>Recipe tags</h4>";
+$output .= "<p class=\"h3\">Recipe tags</p>";
 $output .= "<ul class=\"list-inline\">";
 if(isset($_POST['submit'])) {
 	if (!empty($recipeTags)) {
@@ -45,7 +43,8 @@ if(isset($_POST['submit'])) {
 		$output .= "<p>No tags selected</p>";
 	}
 }
-$output .= "</ul></div></body></html>";
+$output .= "</ul>"
+$output .= "</div></body></html>";
 
 /* Write recipe data to file */
 fwrite($newFile, $output);

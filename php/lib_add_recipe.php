@@ -13,17 +13,10 @@
 		<?php require 'php/lib_form_tags.php'; ?>
 	</div>
 
-	<div class="form-row">
-		<div class="col-sm">
-			<!-- Solicit recipe preparation -->
-			<label for="recipePrep">Preparation</label>
-			<textarea required class="form-control" rows="10" id="recipePrep" name="recipePrep"></textarea>
-		</div>
-		<div class="col-sm">
-			<!-- Solicit recipe notes -->
-			<label for="recipeNotes">Misc notes</label>
-			<textarea class="form-control" name="recipeNotes"></textarea>
-		</div>
+	<div class="form-group">
+		<!-- Solicit recipe preparation -->
+		<label for="recipePrep">Preparation</label>
+		<textarea required class="form-control" rows="10" id="recipePrep" name="recipePrep"></textarea>
 	</div>
 
 	<!-- Submit form data -->
