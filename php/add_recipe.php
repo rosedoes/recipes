@@ -1,7 +1,7 @@
 <!-- This document processes the data submitted by the add-recipe form and writes the html to file */
 <?php
 /* Function for easier validation handling */
-function check_input($input) {
+function validate($input) {
   $input = trim($input); /* Strips unwanted characters */
   $input = stripslashes($input); /* Removes escaped slashes */
   $input = htmlspecialchars($input); /* Converts special characters to html */
@@ -9,14 +9,19 @@ function check_input($input) {
 }
 
 /* Validate inputs */
-$recipeTitle = check_input($_POST['recipeTitle']);
-$prep = check_input($_POST['recipePrep']);
-$recipeTags = $_POST['recipeTags'];
-$recipeNotes = check_input($_POST['recipeNotes']);
+$recipeTitle = validate($_POST['recipeTitle']);
+$prep = validate($_POST['recipePrep']);
+$prep = htmlspecialchars_decode($prep); /* Allow TinyMCE html formatting */
+$recipeTags = $_POST['recipeTags']; /* tTags are hardcoded as checkbox items */
+$recipeNotes = validate($_POST['recipeNotes']);
 
 /* Create new file from recipe title */
-$fileName = preg_replace("/\s+/", "", $recipeTitle) .".php";
-$newFile = fopen('../pages/'.$fileName, 'a') or die("can't open file");
+$tempFileName = preg_replace("/\s+/", "", $recipeTitle);
+if (file_exists('../pages/'.$tempFileName.'.php')) {
+	$tempFileName .= rand(1,200);
+}
+$fileName = $tempFileName .".php";
+$newFile = fopen('../pages/'.$fileName, 'w') or die("can't open file");
 
 /* Compile html */
 $output = "<!doctype html><html lang=\"en\"><head>";
@@ -34,7 +39,7 @@ $output .= "<ul class=\"list-inline\">";
 if(isset($_POST['submit'])) {
 	if (!empty($recipeTags)) {
 		foreach ($recipeTags as $tag) {
-			$output .= "<li class=\"list-inline-item\">$tag</li>";
+			$output .= "<li class=\"list-inline-item\">".$tag."</li>";
 		}
 	} else {
 		$output .= "<p>No tags selected</p>";
@@ -49,6 +54,6 @@ fwrite($newFile, $output);
 fclose($newFile);
 
 /* Redirect to created  page */
-header('Location: ../pages/'.$fileName.');
+header('Location: ../pages/'.$fileName);
 exit();
 ?>
