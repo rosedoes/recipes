@@ -1,6 +1,6 @@
 <h2>Add a recipe</h2>
 <!-- Form -->
-<form action="php/add_recipe.php" method="POST">
+<form action="php/process_form.php" method="POST">
 	<!-- Solicit recipe title -->
 	<div class="form-group">
     <label for="recipeTitle">Recipe name</label>
