@@ -20,5 +20,5 @@
 	</div>
 
 	<!-- Submit form data -->
-	<button class="btn btn-primary btn-block mt-3" name="submit" type="submit">Add recipe</button>
+	<button class="btn btn-primary btn-block mt-3" name="createFile" type="submit">Add recipe</button>
 </form>
