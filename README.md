@@ -21,10 +21,12 @@
 - Card titles link to dedicated recipe page
 - Bootstrap cards are arranged in a card deck for easy responsiveness
 
+1. Delete recipe from dedicated recipe page
+- Removes recipeTitle.php from pages/
+- Removes associated div.card from lib_recipe_cards
+
 # Current tasks
-1. Create template styling for individual recipe pages
 1. Edit/modify recipe
-1. Delete recipe
 1. Try changing dedicated page file ext to html - should be fine; create new html directory
 
 # Future features
@@ -32,6 +34,8 @@
 1. View tags as tag cloud
 1. Toggle favorite recipe
 1. Add/edit/delete tags
+1. Styling for dedicated recipe pages
 
 # Known issues
-1. Changes to code processing do not automatically update existing files.
+1. Changes to code processing do not automatically update existing recipes
+1. Potential duplicate filenames are only checked once. Would be better to check against all titles and offer the option of appending or creating a new file.
