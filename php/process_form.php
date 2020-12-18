@@ -1,5 +1,7 @@
 <!-- This document processes the data submitted by all forms -->
 <?php
+/* global variable: location of recipe card html */
+$cardLib = "lib_recipe_cards.php";
 /* ============================ BEGIN process createForm ============================ */
 if(isset($_POST['createFile'])) {
 	/* Function for easier validation handling */
@@ -19,13 +21,13 @@ if(isset($_POST['createFile'])) {
 	/* Remove spaces from title for filename */
 	$tempFileName = preg_replace("/\s+/", "", $recipeTitle);
 	/* Check for existing recipe */
-	if (file_exists('../pages/'.$tempFileName.'.php')) {
+	if (file_exists("../pages/".$tempFileName.".php")) {
 		$tempFileName .= rand();
 	}
 	$fileName = $tempFileName .".php";
-	$filePath = '../pages/'.$fileName;
+	$filePath = "../pages/".$fileName;
 	/* Create new file from recipe title */
-	$newFile = fopen($filePath, 'w') or die("can't open ".$filePath);
+	$newFile = fopen($filePath, "w") or die("can't open ".$filePath);
 	/* Compile page html */
 	/* between <head> tags */
 	$head = "<!doctype html><html lang=\"en\"><head>";
@@ -73,22 +75,22 @@ if(isset($_POST['createFile'])) {
 
 	/* ============================ BEGIN create card ============================ */
 	/* Create card for view-all */
-	$cardFile = fopen('lib_recipe_cards.php', 'a') or die("can't open lib_recipe_cards");
+	$cardFile = fopen($cardLib, "a") or die("can't open $cardLib");
 	/* Compile card html */
-	$card = "<div class=\"card\">";
+	$card = "<div class=\"card\" name=\"$fileName\">";
 	/*$card .= "<img class=\"card-img-top\" src=\"tbd\" alt=\"$recipeTitle\">";*/
 	$card .= "<div class=\"card-body\">";
 	$card .= "<h5 class=\"card-title\"><a href=\"recipe/$filePath\">$recipeTitle</a></h5>";
 	$output .= "<ul class=\"list-inline\">";
 	$output .= "</ul>";
-	$card .= "</div></div>";
+	$card .= "</div></div><!--End card-->";
 	/* Write card html to file */
 	fwrite($cardFile, $card);
 	/* Close file */
 	fclose($cardFile);
 	/* ============================ END ============================ */
 	/* Redirect to new file */
-	header('Location: '.$filePath);
+	header("Location: ".$filePath);
 }
 /* ============================ END ============================ */
 
@@ -100,19 +102,24 @@ if(isset($_POST['editFile'])) {
 
 /* ============================ BEGIN process deleteFile ============================ */
 if(isset($_POST['deleteFile'])) {
-	$dFile = $_POST['passFileName'];
-	echo "dfile 1: ".$dFile."\f";
-	$dFile = "../pages/".$dFile;
-	echo "dfile 2: ".$dFile."\f";
-	if (file_exists($dFile)) {
-		if (unlink($dFile)) {
-			echo "This recipe has been deleted.";
+	$dFileName = $_POST['passFileName'];
+	$dFilePath = "../pages/$dFileName";
+	/* Delete dedicated recipe page */
+	if (file_exists($dFilePath)) {
+		if (unlink($dFilePath)) {
+			echo "Redirect: This recipe has been deleted.";
 		} else {
-			echo "This recipe could not be deleted.";
+			echo "Error: This recipe could not be deleted.";
 		}
 	} else {
-		echo "That recipe does not exist.";
+		echo "404: This recipe does not exist.";
 	}
+	/* Delete recipe card */
+	$old = file_get_contents($cardLib);
+	$new = preg_replace("#<div class=\"card\" name=\"".$dFileName."\">[\s\S]+?<?--End card-->#s", "", $old);
+	echo $new;
+	/* Write changes to file */
+	file_put_contents($cardLib, $new);
 }
 /* ============================ END ============================ */
 exit();
