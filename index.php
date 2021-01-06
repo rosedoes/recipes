@@ -16,7 +16,7 @@
 <body>
 	<div class="container">
 		<?php require 'php/lib_add_recipe.php'; ?>
-		<?php require 'php/lib_view_all.php'; ?>
+		<?php require 'php/lib_view_recipe_cards.php'; ?>
 	</div>
 
 	<!-- TinyMCE rich text editor -->
