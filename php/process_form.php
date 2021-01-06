@@ -17,7 +17,7 @@ if(isset($_POST['createFile'])) {
 	$recipeTitle = validate($_POST['recipeTitle']);
 	$prep = validate($_POST['recipePrep']);
 	$prep = htmlspecialchars_decode($prep); /* Allow TinyMCE html formatting */
-	$recipeTags = $_POST['recipeTags']; /* tTags are hardcoded as checkbox items */
+	$recipeTags = $_POST['recipeTags']; /* Tag options are hardcoded */
 
 	/* ============================ BEGIN create dedicated page ============================ */
 	/* Remove spaces from title for filename */
@@ -29,7 +29,7 @@ if(isset($_POST['createFile'])) {
 	$fileName = $tempFileName .".php";
 	$filePath = "../pages/".$fileName;
 	/* Create new file from recipe title */
-	$newFile = fopen($filePath, "w") or die("can't open ".$filePath);
+	$newFile = fopen($filePath, "w") or die("can't open $filePath");
 	/* Compile page html */
 	/* between <head> tags */
 	$head = "<!doctype html><html lang=\"en\"><head>";
@@ -39,17 +39,15 @@ if(isset($_POST['createFile'])) {
 	$head .= "<title>$recipeTitle</title></head><body>";
 	/* buttons to edit/delete recipe */
 	/* edit button */
-	$eButton = "<form action=\"../php/process_form.php\" method=\"POST\">";
-	$eButton .= "<button type=\"submit\" class=\"close\" aria-label=\"Edit recipe\" name=\"editFile\">";
-	$eButton .= "<span aria-hidden=\"true\">&#47;</span> Edit recipe";
-	$eButton .= "</button></form>";
+	$editOptions .= "<button type=\"submit\" class=\"close\" aria-label=\"Edit recipe\" name=\"editFile\">";
+	$editOptions .= "<span aria-hidden=\"true\">&#47;</span> Edit recipe";
+	$editOptions .= "</button>";
 	/* delete button */
-	$dButton = "<form action=\"../php/process_form.php\" method=\"POST\">";
 	$dButton .= "<input type=\"hidden\" name=\"passFileName\" value=\"$fileName\">"; /* make fileName accessible to delete function */
-	$dButton .= "<button type=\"submit\" class=\"close\" aria-label=\"Delete recipe\" name=\"deleteFile\">";
-	$dButton .= "<span aria-hidden=\"true\">&times;</span> Delete recipe";
-	$dButton .= "</button></form>";
-	$editOptions = $eButton.$dButton;
+	$editOptions .= "<button type=\"submit\" class=\"close\" aria-label=\"Delete recipe\" name=\"deleteFile\">";
+	$editOptions .= "<span aria-hidden=\"true\">&times;</span> Delete recipe";
+	$editOptions .= "</button>";
+	$editOptions .= "</form>";
 	/* content from html form */
 	$content = "<div class=\"container\">";
 	$content .= $editOptions;
@@ -90,12 +88,6 @@ if(isset($_POST['createFile'])) {
 	/* ============================ END ============================ */
 	/* Redirect to new file */
 	header("Location: $root/pages/$filePath");
-}
-/* ============================ END ============================ */
-
-/* ============================ BEGIN process editFile ============================ */
-if(isset($_POST['editFile'])) {
-	/*rename ('originalfile.txt', 'renamedfile.txt');*/
 }
 /* ============================ END ============================ */
 
