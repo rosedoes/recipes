@@ -91,26 +91,38 @@ if(isset($_POST['createFile'])) {
 }
 /* ============================ END ============================ */
 
-/* ============================ BEGIN process deleteFile ============================ */
-if(isset($_POST['deleteFile'])) {
+/* ============================ BEGIN process deleteFile, editFile ============================ */
+if(isset($_POST['deleteFile']) || isset($_POST['editFile'])) {
+	$dRecipeTitle = $_POST['passRecipeTitle'];
+	$dRecipePrep = $_POST['passRecipePrep'];
+	$dRecipeTags = $_POST['passRecipeTags'];
 	$dFileName = $_POST['passFileName'];
-	$dFilePath = "../pages/$dFileName";
-	/* Delete dedicated recipe page */
-	if (file_exists($dFilePath)) {
-		if (unlink($dFilePath)) {
-			echo "Redirect: This recipe has been deleted.";
+	$dFilePath = $_POST['passFilePath'];
+
+	/* ============================ BEGIN process deleteFile ============================ */
+	if(isset($_POST['deleteFile'])) {
+		/* Delete dedicated recipe page */
+		if (file_exists($dFilePath)) {
+			if (unlink($dFilePath)) {
+				/* Delete recipe card */
+				$oldCard = file_get_contents($cardLib);
+				$newCard = preg_replace("#<div class=\"card\" name=\"$dFileName\">[\s\S]+?<?--End card-->#s", "", $oldCard);
+				/* Write changes to file */
+				file_put_contents($cardLib, $newCard);
+				echo "Redirect: This recipe has been deleted.";
+				/* Redirect to main page */
+				header("Location: ".$root);
+			} else {
+				echo "Error: This recipe could not be deleted.";
+				header("Location: ".$dFilePath);
+			}
 		} else {
-			echo "Error: This recipe could not be deleted.";
+			echo "404: This recipe does not exist.";
+			header("Location: ".$root);
 		}
-	} else {
-		echo "404: This recipe does not exist.";
 	}
-	/* Delete recipe card */
-	$old = file_get_contents($cardLib);
-	$new = preg_replace("#<div class=\"card\" name=\"".$dFileName."\">[\s\S]+?<?--End card-->#s", "", $old);
-	echo $new;
-	/* Write changes to file */
-	file_put_contents($cardLib, $new);
+	/* ============================ END ============================ */
+
 }
 /* ============================ END ============================ */
 exit();
