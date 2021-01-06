@@ -54,16 +54,15 @@ if(isset($_POST['createFile'])) {
 	$content .= "<h2 id=\"recipeTitle\" name=\"$recipeTitle\" class=\"text-center\">$recipeTitle</h2>";
 	$content .= "<p class=\"h3\">How it's made</p>";
 	$content .= $prep;
-	$content .= "<p class=\"h3\">Recipe tags</p>";
-	$content .= "<ul class=\"list-inline\">";
 	if (!empty($recipeTags)) {
+		$showTags = "<p class=\"h3\">Recipe tags</p>";
+		$showTags .= "<ul class=\"list-inline\">";
 		foreach ($recipeTags as $tag) {
-			$content .= "<li class=\"list-inline-item\">".$tag."</li>";
+			$showTags .= "<li class=\"list-inline-item\">$tag</li>";
 		}
-	} else {
-		$content .= "<p>No tags selected</p>";
+		$showTags .= "</ul>";
 	}
-	$content .= "</ul>";
+	$content .= $showTags;
 	/* head + content + closing tags */
 	$output = $head.$content."</div></body></html>";
 
