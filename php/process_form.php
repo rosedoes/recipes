@@ -1,5 +1,7 @@
 <!-- This document processes the data submitted by all forms -->
 <?php
+/* global variable: location of recipe/ root */
+$root = "https://darlingrosette.com/recipe";
 /* global variable: location of recipe card html */
 $cardLib = "lib_recipe_cards.php";
 /* ============================ BEGIN process createForm ============================ */
@@ -33,8 +35,8 @@ if(isset($_POST['createFile'])) {
 	$head = "<!doctype html><html lang=\"en\"><head>";
 	$head .= "<meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">";
 	$head .= "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css\" integrity=\"sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2\" crossorigin=\"anonymous\">";
-	$head .= "<link rel=\"stylesheet\" href=\"../css/recipe.css\">";
-	$head .= "<title>".$recipeTitle."</title></head><body>";
+	$head .= "<link rel=\"stylesheet\" href=\"".$root."/css/recipe.css\">";
+	$head .= "<title>$recipeTitle</title></head><body>";
 	/* buttons to edit/delete recipe */
 	/* edit button */
 	$eButton = "<form action=\"../php/process_form.php\" method=\"POST\">";
@@ -79,9 +81,7 @@ if(isset($_POST['createFile'])) {
 	$card = "<div class=\"card\" name=\"$fileName\">";
 	/*$card .= "<img class=\"card-img-top\" src=\"tbd\" alt=\"$recipeTitle\">";*/
 	$card .= "<div class=\"card-body\">";
-	$card .= "<h5 class=\"card-title\"><a href=\"recipe/$filePath\">$recipeTitle</a></h5>";
-	$output .= "<ul class=\"list-inline\">";
-	$output .= "</ul>";
+	$card .= "<h5 class=\"card-title\"><a href=\"$root/pages/$filePath\">$recipeTitle</a></h5>";
 	$card .= "</div></div><!--End card-->";
 	/* Write card html to file */
 	fwrite($cardFile, $card);
@@ -89,7 +89,7 @@ if(isset($_POST['createFile'])) {
 	fclose($cardFile);
 	/* ============================ END ============================ */
 	/* Redirect to new file */
-	header("Location: ".$filePath);
+	header("Location: $root/pages/$filePath");
 }
 /* ============================ END ============================ */
 
