@@ -3,7 +3,7 @@
 /* global variable: location of recipe/ root */
 $root = "https://darlingrosette.com/recipe";
 /* global variable: location of recipe card html */
-$cardLib = "lib_recipe_cards.php";
+$cardLib = "../db_recipe_cards.txt";
 /* ============================ BEGIN process createForm ============================ */
 if(isset($_POST['createFile'])) {
 	/* Function for easier validation handling */

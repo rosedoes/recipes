@@ -16,7 +16,15 @@
 <body>
 	<div class="container">
 		<?php require 'php/lib_add_recipe.php'; ?>
-		<?php require 'php/lib_view_recipe_cards.php'; ?>
+		<!-- BEGIN recipe cards -->
+		<div class="card-deck">
+			<h2>Find a recipe</h2>
+			<!-- Display tag sort -->
+			<!-- Display search -->
+			<!-- Display recipe cards -->
+			<?php require 'db_recipe_cards.txt'; ?>
+		</div>
+		<!-- END -->
 	</div>
 
 	<!-- TinyMCE rich text editor -->
