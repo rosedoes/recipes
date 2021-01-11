@@ -26,65 +26,35 @@ if(isset($_POST['createFile'])) {
 	if (file_exists("../pages/".$tempFileName.".php")) {
 		$tempFileName .= rand();
 	}
-	$fileName = $tempFileName .".php";
-	$filePath = "../pages/".$fileName;
-	/* Create new file from recipe title */
-	$newFile = fopen($filePath, "w") or die("can't open $filePath");
-	/* Compile page html */
-	/* between <head> tags */
-	$head = "<!doctype html><html lang=\"en\"><head>";
-	$head .= "<meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">";
-	$head .= "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css\" integrity=\"sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2\" crossorigin=\"anonymous\">";
-	$head .= "<link rel=\"stylesheet\" href=\"".$root."/css/recipe.css\">";
-	$head .= "<title>$recipeTitle</title></head><body>";
-	/* buttons to edit/delete recipe */
-	/* edit button */
-	$editOptions .= "<button type=\"submit\" class=\"close\" aria-label=\"Edit recipe\" name=\"editFile\">";
-	$editOptions .= "<span aria-hidden=\"true\">&#47;</span> Edit recipe";
-	$editOptions .= "</button>";
-	/* delete button */
-	$dButton .= "<input type=\"hidden\" name=\"passFileName\" value=\"$fileName\">"; /* make fileName accessible to delete function */
-	$editOptions .= "<button type=\"submit\" class=\"close\" aria-label=\"Delete recipe\" name=\"deleteFile\">";
-	$editOptions .= "<span aria-hidden=\"true\">&times;</span> Delete recipe";
-	$editOptions .= "</button>";
-	$editOptions .= "</form>";
-	/* content from html form */
-	$content = "<div class=\"container\">";
-	$content .= $editOptions;
-	$content .= "<h2 id=\"recipeTitle\" name=\"$recipeTitle\" class=\"text-center\">$recipeTitle</h2>";
-	$content .= "<p class=\"h3\">How it's made</p>";
-	$content .= $prep;
-	if (!empty($recipeTags)) {
-		$showTags = "<p class=\"h3\">Recipe tags</p>";
-		$showTags .= "<ul class=\"list-inline\">";
-		foreach ($recipeTags as $tag) {
-			$showTags .= "<li class=\"list-inline-item\">$tag</li>";
-		}
-		$showTags .= "</ul>";
-	}
-	$content .= $showTags;
-	/* head + content + closing tags */
-	$output = $head.$content."</div></body></html>";
+	$fileName = $tempFileName;
+	$filePath = "../pages/$fileName.htm";
 
+	/* Obtain template for dedicated recipe page */
+	$template = file_get_contents('../template_recipe.txt');
+	/* Replace template variables with form data */
+	$template = str_replace("VAR_TITLE", $recipeTitle, $template);
+	$template = str_replace("VAR_PREP", $recipePrep, $template);
+	$template = str_replace("VAR_TAGS", $recipeTags, $template);
+	$template = str_replace("VAR_FILENAME", $fileName, $template);
+	$template = str_replace("VAR_PATH", $filePath, $template);
+	/* Create dedicated recipe page for this recipe */
+	$newFile = fopen($filePath, "w") or die("can't open $filePath");
 	/* Write recipe data to file */
-	fwrite($newFile, $output);
-	/* Close file */
+	fwrite($newFile, $template);
 	fclose($newFile);
 	/* ============================ END ============================ */
 
 	/* ============================ BEGIN create card ============================ */
-	/* Create card for view-all */
-	$cardFile = fopen($cardLib, "a") or die("can't open $cardLib");
-	/* Compile card html */
-	$card = "<div class=\"card\" name=\"$fileName\">";
-	/*$card .= "<img class=\"card-img-top\" src=\"tbd\" alt=\"$recipeTitle\">";*/
-	$card .= "<div class=\"card-body\">";
-	$card .= "<h5 class=\"card-title\"><a href=\"$root/pages/$filePath\">$recipeTitle</a></h5>";
-	$card .= "</div></div><!--End card-->";
-	/* Write card html to file */
-	fwrite($cardFile, $card);
-	/* Close file */
-	fclose($cardFile);
+	$template = file_get_contents('../template_card.txt');
+	/* Replace template variables with form data */
+	$template = str_replace("VAR_TITLE", $recipeTitle, $template);
+	$template = str_replace("VAR_TAGS", $recipeTags, $template);
+	$template = str_replace("VAR_FILENAME", $fileName, $template);
+	$template = str_replace("VAR_PATH", $filePath, $template);
+	/* Append this card to existing recipe cards */
+	$newFile = fopen($cardLib, "a") or die("can't open $cardLib");
+	fwrite($newFile, $template);
+	fclose($newFile);
 	/* ============================ END ============================ */
 	/* Redirect to new file */
 	header("Location: $root/pages/$filePath");
