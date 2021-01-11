@@ -1,7 +1,5 @@
 <!-- This document processes the data submitted by all forms -->
 <?php
-/* global variable: location of recipe/ root */
-$root = "https://darlingrosette.com/recipe";
 /* global variable: location of recipe card html */
 $cardLib = "../db_recipe_cards.txt";
 /* ============================ BEGIN process createForm ============================ */
@@ -57,42 +55,7 @@ if(isset($_POST['createFile'])) {
 	fclose($newFile);
 	/* ============================ END ============================ */
 	/* Redirect to new file */
-	header("Location: $root/pages/$filePath");
-}
-/* ============================ END ============================ */
-
-/* ============================ BEGIN process deleteFile, editFile ============================ */
-if(isset($_POST['deleteFile']) || isset($_POST['editFile'])) {
-	$dRecipeTitle = $_POST['passRecipeTitle'];
-	$dRecipePrep = $_POST['passRecipePrep'];
-	$dRecipeTags = $_POST['passRecipeTags'];
-	$dFileName = $_POST['passFileName'];
-	$dFilePath = $_POST['passFilePath'];
-
-	/* ============================ BEGIN process deleteFile ============================ */
-	if(isset($_POST['deleteFile'])) {
-		/* Delete dedicated recipe page */
-		if (file_exists($dFilePath)) {
-			if (unlink($dFilePath)) {
-				/* Delete recipe card */
-				$oldCard = file_get_contents($cardLib);
-				$newCard = preg_replace("#<div class=\"card\" name=\"$dFileName\">[\s\S]+?<?--End card-->#s", "", $oldCard);
-				/* Write changes to file */
-				file_put_contents($cardLib, $newCard);
-				echo "Redirect: This recipe has been deleted.";
-				/* Redirect to main page */
-				header("Location: ".$root);
-			} else {
-				echo "Error: This recipe could not be deleted.";
-				header("Location: ".$dFilePath);
-			}
-		} else {
-			echo "404: This recipe does not exist.";
-			header("Location: ".$root);
-		}
-	}
-	/* ============================ END ============================ */
-
+	header("Location: $filePath");
 }
 /* ============================ END ============================ */
 exit();
