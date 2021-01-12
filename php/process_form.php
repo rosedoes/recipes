@@ -82,15 +82,15 @@ if(isset($_POST['deleteFile'])) {
 			$oldCard = file_get_contents('../db_recipe_cards.txt');
 			$newCard = preg_replace("#<!--BEGIN $fileName-->[\s\S]+?<!--END-->#s", "", $oldCard);
 			file_put_contents('../db_recipe_cards.txt', $newCard);
-			echo "Redirect: This recipe has been deleted.";
-			header("Location: https://darlingrosette.com/recipe");
+			header("Location: https://darlingrosette.com/recipe/");
+			echo "This recipe has been successfully deleted. Redirecting...";
 		} else {
-			echo "Error: This recipe could not be deleted.";
 			header("Location: $filePath");
+			echo "Error: This recipe could not be deleted. Redirecting...";
 		}
 	} else {
-		echo "404: This recipe does not exist.";
-		header("Location: https://darlingrosette.com/recipe");
+		header("Location: https://darlingrosette.com/recipe/");
+		echo "404: This recipe does not exist. Redirecting...";
 	}
 }
 /* ============================ END ============================ */

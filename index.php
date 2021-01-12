@@ -16,10 +16,12 @@
 
 <body>
 	<div class="container">
+		<!-- BEGIN add recipe -->
 		<?php require 'php/lib_add_recipe.php'; ?>
+		<!-- END -->
 
-		<h2>Find a recipe</h2>
 		<!-- BEGIN recipe cards -->
+		<h2>Find a recipe</h2>
 		<!-- Display tag sort -->
 		<!-- Display search -->
 		<div class="card-deck">
