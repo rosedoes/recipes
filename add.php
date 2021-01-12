@@ -2,27 +2,6 @@
 /* global variable: location of recipe card html */
 $cardLib = "data/db_recipe_cards.txt";
 
-/* ============================ BEGIN process addTag ============================ */
-if(isset($_POST['addTag'])) {
-	/* Validate input */
-	$tagName = trim(stripslashes(htmlspecialchars($_POST['tagName'])));
-	$dbTags = "data/db_tags.txt";
-
-	/* Check if tag already exists */
-	if(strpos(file_get_contents($dbTags), $tagName) !== false) {
-		echo "This tag already exists. Add a recipe!";
-	} else {
-		/* Open tag db */
-		$tagDb = fopen($dbTags, "a") or die("can't open $dbTags");
-		/* Append tagName with comma */
-		fwrite($tagDb, $tagName.',');
-		fclose($tagDb);
-	}
-	/* Redirect to addTag form */
-	header("Location: https://darlingrosette.com/recipe/add.php");
-}
-/* ============================ END ============================ */
-
 /* ============================ BEGIN process createFile ============================ */
 if(isset($_POST['createFile'])) {
 	/* Validate inputs */
@@ -137,21 +116,6 @@ if(isset($_POST['deleteFile'])) {
 
 			<!-- Submit form data -->
 			<button class="btn btn-primary btn-block mt-3" name="createFile" type="submit">Add recipe</button>
-		</form>
-		<!-- END -->
-
-		<!-- BEGIN add tag -->
-		<h2>Add a tag</h2>
-		<form action="add.php" method="POST">
-			<div class="form-group row">
-				<label for="tagName">Name of tag </label>
-				<div class="col-sm-5">
-					<input type="text" class="form-control" required name="tagName">
-				</div>
-				<div class="col-sm-3">
-					<button class="btn btn-primary btn-block" name="addTag" type="submit">Add tag</button>
-				</div>
-			</div>
 		</form>
 		<!-- END -->
 	</div>
