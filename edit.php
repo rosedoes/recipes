@@ -82,8 +82,8 @@ if(isset($_POST['saveChanges'])) {
 		    <input type="text" class="form-control" required name="editTitle" value="<?php echo $recipeTitle;?>">
 			</div>
 
+			<p class="mb-2">Recipe tags</p>
 			<div class="form-group text-col-2">
-				<p class="mb-2">Recipe tags</p>
 				<!-- Display and solicit recipe tags -->
 				<?php
 				/* Get all tags as array */

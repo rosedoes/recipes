@@ -6,36 +6,36 @@
 <body>
 	<div class="container">
 		<?php include '../php/_nav.php'; ?>
-		<form action="../edit.php" method="POST">
+
+		<form class="float-right" action="../edit.php" method="POST">
 			<div class="d-none">
 				<input type="hidden" name="passRecipeTitle" value="VAR_TITLE">
 				<input type="hidden" name="passRecipePrep" value="VAR_PREP">
 				<input type="hidden" name="passRecipeTags" value="VAR_TAGS">
 				<input type="hidden" name="passFileName" value="VAR_FILENAME">
 			</div>
-			<button type="submit" class="close" aria-label="Edit recipe" name="editFile">Edit recipe</button>
+			<button type="submit" class="btn" aria-label="Edit recipe" name="editFile"><span aria-hidden="true">&#92;</span> Edit recipe</button>
 		</form>
 
-		<form action="../add.php" method="POST">
+		<form class="float-right" action="../add.php" method="POST">
 			<input type="hidden" name="passFileName" value="VAR_FILENAME">
-			<button type="submit" class="close" aria-label="Delete recipe" name="deleteFile"><span aria-hidden="true">&times;</span> Delete recipe</button>
+			<button type="submit" class="btn text-danger" aria-label="Delete recipe" name="deleteFile"><span aria-hidden="true">&times;</span> Delete recipe</button>
 		</form>
+		<div class="clearfix"></div>
 
 		<h2 id="recipeTitle" name="VAR_TITLE" class="text-center">VAR_TITLE</h2>
-
-		<p class="h3">How it's made</p>
-		VAR_PREP
-
-		<p class="h3">How it's tagged</p>
-		<?php $recipeTags = explode(',','VAR_TAGS');
-		if (!empty($recipeTags)) {
-			echo "<ul class=\"list-inline\">";
-			foreach ($recipeTags as $tag) {
-				echo "<li class=\"list-inline-item\">$tag</li>";
-			}
-			echo "</ul>";
-		} else { echo "<p>This recipe is untagged.</p>"; }
-		?>
+			<?php $recipeTags = explode(',','VAR_TAGS');
+			if (!empty($recipeTags)) {
+				echo "<ul class=\"list-inline text-center\">";
+				foreach ($recipeTags as $tag) {
+					echo "<li class=\"list-inline-item text-muted\">$tag</li>";
+				}
+				echo "</ul>";
+			} else { echo "<p>This recipe is untagged.</p>"; }
+			?>
+		<div class="col-sm-6 mx-auto">
+			VAR_PREP
+		</div>
 	</div>
 </body>
 </html>

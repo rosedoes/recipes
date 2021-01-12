@@ -1,6 +1,8 @@
-<nav>
-	<p>
-		<a href="https://darlingrosette.com/index.php">home</a> /
-		<a href="https://darlingrosette.com/add.php">add</a>
-	</p>
+<nav class="navbar navbar-expand navbar-light">
+	<a class="navbar-brand" href="#">roseDoes</a>
+
+	<div class="navbar-nav">
+      <a class="nav-link" href="https://darlingrosette.com/recipe/">home</a>
+      <a class="nav-link" href="https://darlingrosette.com/recipe/add.php">add</a>
+    </div>
 </nav>
