@@ -2,7 +2,15 @@
 <div class="card mb-3" name="VAR_FILENAME">
 	<div class="card-body">
 		<h5 class="card-title"><a href="pages/VAR_FILENAME.php">VAR_TITLE</a></h5>
-		VAR_TAGS
+		<?php $recipeTags = explode(',','VAR_TAGS');
+		if (!empty($recipeTags)) {
+			echo "<ul class=\"list-inline\">";
+			foreach ($recipeTags as $tag) {
+				echo "<li class=\"list-inline-item\">$tag</li>";
+			}
+			echo "</ul>";
+		} else { echo "<p>This recipe is untagged.</p>"; }
+		?>
 	</div>
 </div>
 <!--END-->

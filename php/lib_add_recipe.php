@@ -7,10 +7,17 @@
     <input type="text" class="form-control" required name="recipeTitle">
 	</div>
 
+	<p class="mb-2">Recipe tags</p>
 	<div class="form-group text-col-2">
-		<p class="mb-2">Recipe tags</p>
 		<!-- Solicit recipe tags -->
-		<?php require 'php/lib_form_tags.php'; ?>
+		<?php $tags = explode(',', file_get_contents('db_tags.txt'));
+		array_pop($tags);
+		foreach ($tags as $tag) {
+			/* Replace checkbox template variable with form data */
+			$template = str_replace('VAR_TAG', $tag, file_get_contents('template_tag.txt'));
+			/* Print formatted tag to page */
+			echo $template;
+		} ?>
 	</div>
 
 	<div class="form-group">

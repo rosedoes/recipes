@@ -26,6 +26,21 @@
 			<?php require 'db_recipe_cards.txt'; ?>
 		</div>
 		<!-- END -->
+
+		<!-- BEGIN add tag -->
+		<h2>Add a tag</h2>
+		<form action="php/process_form.php" method="POST">
+			<div class="form-group row">
+				<label for="tagName">Name of tag </label>
+				<div class="col-sm-5">
+					<input type="text" class="form-control" required name="tagName">
+				</div>
+				<div class="col-sm-3">
+					<button class="btn btn-primary btn-block" name="addTag" type="submit">Add tag</button>
+				</div>
+			</div>
+		</form>
+		<!-- END -->
 	</div>
 
 	<!-- TinyMCE rich text editor -->

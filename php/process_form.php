@@ -2,21 +2,34 @@
 <?php
 /* global variable: location of recipe card html */
 $cardLib = "../db_recipe_cards.txt";
+/* ============================ BEGIN process addTag ============================ */
+if(isset($_POST['addTag'])) {
+	/* Validate input */
+	$tagName = trim(stripslashes(htmlspecialchars($_POST['tagName'])));
+	$dbTags = "../db_tags.txt";
+
+	/* Check if tag already exists */
+	if(strpos(file_get_contents($dbTags), $tagName) !== false) {
+		echo "This tag already exists. Add a recipe!";
+	} else {
+		/* Open tag db */
+		$tagDb = fopen($dbTags, "a") or die("can't open $dbTags");
+		/* Append tagName with comma */
+		fwrite($tagDb, $tagName.',');
+		fclose($tagDb);
+	}
+}
+/* Redirect to addTag form */
+header("Location: https://darlingrosette.com/recipe/");
+/* ============================ END ============================ */
+
 /* ============================ BEGIN process createForm ============================ */
 if(isset($_POST['createFile'])) {
 	/* Validate inputs */
 	$recipeTitle = trim(stripslashes(htmlspecialchars($_POST['recipeTitle'])));
 	$recipePrep = trim(stripslashes($_POST['recipePrep'])); /* Allow TinyMCE html formatting */
 	$recipeTags = $_POST['recipeTags']; /* Tag options are hardcoded */
-	if (!empty($recipeTags)) {
-		$parseTags = "<ul class=\"list-inline\">";
-		foreach ($recipeTags as $tag) {
-			$parseTags .= "<li class=\"list-inline-item\">$tag</li>";
-		}
-		$parseTags .= "</ul>";
-	} else {
-		$parseTags = "This recipe is untagged.";
-	}
+	$recipeTags = implode(',', $recipeTags);
 
 	/* ============================ BEGIN create dedicated page ============================ */
 	/* Remove spaces from title for filename */
@@ -33,7 +46,7 @@ if(isset($_POST['createFile'])) {
 	/* Replace template variables with form data */
 	$template = str_replace("VAR_TITLE", $recipeTitle, $template);
 	$template = str_replace("VAR_PREP", $recipePrep, $template);
-	$template = str_replace("VAR_TAGS", $parseTags, $template);
+	$template = str_replace("VAR_TAGS", $recipeTags, $template);
 	$template = str_replace("VAR_FILENAME", $fileName, $template);
 	/* Create dedicated recipe page for this recipe */
 	$newFile = fopen($filePath, "w") or die("can't open $filePath");
@@ -46,7 +59,7 @@ if(isset($_POST['createFile'])) {
 	$template = file_get_contents('../template_card.txt');
 	/* Replace template variables with form data */
 	$template = str_replace("VAR_TITLE", $recipeTitle, $template);
-	$template = str_replace("VAR_TAGS", $parseTags, $template);
+	$template = str_replace("VAR_TAGS", $recipeTags, $template);
 	$template = str_replace("VAR_FILENAME", $fileName, $template);
 	/* Append this card to existing recipe cards */
 	$newFile = fopen($cardLib, "a") or die("can't open $cardLib");

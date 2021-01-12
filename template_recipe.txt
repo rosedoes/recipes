@@ -25,16 +25,27 @@
 			</div>
 			<button type="submit" class="close" aria-label="Edit recipe" name="editFile">Edit recipe</button>
 		</form>
+
 		<form action="../php/process_form.php" method="POST">
 			<input type="hidden" name="passFileName" value="VAR_FILENAME">
 			<button type="submit" class="close" aria-label="Delete recipe" name="deleteFile"><span aria-hidden="true">&times;</span> Delete recipe</button>
 		</form>
 
 		<h2 id="recipeTitle" name="VAR_TITLE" class="text-center">VAR_TITLE</h2>
+
 		<p class="h3">How it's made</p>
 		VAR_PREP
+
 		<p class="h3">How it's tagged</p>
-		VAR_TAGS
+		<?php $recipeTags = explode(',','VAR_TAGS');
+		if (!empty($recipeTags)) {
+			echo "<ul class=\"list-inline\">";
+			foreach ($recipeTags as $tag) {
+				echo "<li class=\"list-inline-item\">$tag</li>";
+			}
+			echo "</ul>";
+		} else { echo "<p>This recipe is untagged.</p>"; }
+		?>
 	</div>
 </body>
 </html>
