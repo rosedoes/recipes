@@ -16,11 +16,12 @@
 <body>
 	<div class="container">
 		<?php require 'php/lib_add_recipe.php'; ?>
+
+		<h2>Find a recipe</h2>
 		<!-- BEGIN recipe cards -->
+		<!-- Display tag sort -->
+		<!-- Display search -->
 		<div class="card-deck">
-			<h2>Find a recipe</h2>
-			<!-- Display tag sort -->
-			<!-- Display search -->
 			<!-- Display recipe cards -->
 			<?php require 'db_recipe_cards.txt'; ?>
 		</div>
@@ -33,11 +34,28 @@
 	<script type="text/javascript">
 	tinymce.init({
 		selector: '#recipePrep',
-		menubar: false,
 		plugins: 'lists link',
 	  toolbar: 'bold italic underline strikethrough | numlist bullist link',
+		menubar: false,
+		contextmenu: false,
   	link_context_toolbar: true,
-		link_title: false
+		link_title: false,
+		setup: function (editor) {
+      // Apply the focus effect
+	    editor.on('init', () => {
+	      editor.getContainer().style.transition =
+	        'border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out';
+	    });
+	    editor.on('focus', () => {
+	      (editor.getContainer().style.boxShadow =
+	        '0 0 0 .2rem rgba(0, 123, 255, .25)'),
+	        (editor.getContainer().style.borderColor = '#80bdff');
+	    });
+	    editor.on('blur', () => {
+	      (editor.getContainer().style.boxShadow = ''),
+	        (editor.getContainer().style.borderColor = '');
+	    });
+    }
 	});
 	</script>
 

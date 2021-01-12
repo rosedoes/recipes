@@ -15,20 +15,26 @@
 
 <body>
 	<div class="container">
+		<p><a href="https://darlingrosette.com/recipe">home</a></p>
 		<form action="../edit_recipe.php" method="POST">
-			<input type="hidden" name="passRecipeTitle" value="VAR_TITLE">
-			<input type="hidden" name="passRecipePrep" value="VAR_PREP">
-			<input type="hidden" name="passRecipeTags" value="VAR_TAGS">
-			<input type="hidden" name="passFileName" value="VAR_FILENAME">
-			<input type="hidden" name="passFilePath" value="VAR_PATH">
+			<div class="d-none">
+				<input type="hidden" name="passRecipeTitle" value="VAR_TITLE">
+				<input type="hidden" name="passRecipePrep" value="VAR_PREP">
+				<input type="hidden" name="passRecipeTags" value="VAR_TAGS">
+				<input type="hidden" name="passFileName" value="VAR_FILENAME">
+			</div>
 			<button type="submit" class="close" aria-label="Edit recipe" name="editFile">Edit recipe</button>
+		</form>
+		<form action="../php/process_form.php" method="POST">
+			<input type="hidden" name="passFileName" value="VAR_FILENAME">
+			<button type="submit" class="close" aria-label="Delete recipe" name="deleteFile"><span aria-hidden="true">&times;</span> Delete recipe</button>
 		</form>
 
 		<h2 id="recipeTitle" name="VAR_TITLE" class="text-center">VAR_TITLE</h2>
 		<p class="h3">How it's made</p>
 		VAR_PREP
 		<p class="h3">How it's tagged</p>
-		TBD
+		VAR_TAGS
 	</div>
 </body>
 </html>
