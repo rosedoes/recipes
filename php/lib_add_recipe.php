@@ -13,8 +13,11 @@
 		<?php $tags = explode(',', file_get_contents('db_tags.txt'));
 		array_pop($tags);
 		foreach ($tags as $tag) {
+			/* Get template for tag formatting */
+			$template = file_get_contents('template_tag.txt');
 			/* Replace checkbox template variable with form data */
-			$template = str_replace('VAR_TAG', $tag, file_get_contents('template_tag.txt'));
+			$template = str_replace('VAR_TAG', $tag, $template);
+			$template = str_replace('VAR_CHECKED', "", $template);
 			/* Print formatted tag to page */
 			echo $template;
 		} ?>
