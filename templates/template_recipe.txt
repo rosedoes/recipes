@@ -16,8 +16,8 @@
 
 <body>
 	<div class="container">
-		<p><a href="https://darlingrosette.com/recipe">home</a></p>
-		<form action="../edit_recipe.php" method="POST">
+		<?php include '../php/_nav.php'; ?>
+		<form action="../edit.php" method="POST">
 			<div class="d-none">
 				<input type="hidden" name="passRecipeTitle" value="VAR_TITLE">
 				<input type="hidden" name="passRecipePrep" value="VAR_PREP">
@@ -27,7 +27,7 @@
 			<button type="submit" class="close" aria-label="Edit recipe" name="editFile">Edit recipe</button>
 		</form>
 
-		<form action="../php/process_form.php" method="POST">
+		<form action="../add.php" method="POST">
 			<input type="hidden" name="passFileName" value="VAR_FILENAME">
 			<button type="submit" class="close" aria-label="Delete recipe" name="deleteFile"><span aria-hidden="true">&times;</span> Delete recipe</button>
 		</form>

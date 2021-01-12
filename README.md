@@ -29,15 +29,20 @@
 - Adds tag to comma-separated .txt file
 - Tags are formatted at time of printing
 
+6. Modify recipe
+- Remove original card
+- Remove original dedicated recipe page
+- Create new card
+- Create new dedicated recipe page
+
 # Current tasks
-1. Edit/modify recipe
+1. Edit/delete tags
+1. Style dedicated recipe pages
 
 # Future tasks
 1. Sort recipes by tag
 1. View tags as tag cloud
 1. Toggle favorite recipe
-1. Edit/delete tags
-1. Style dedicated recipe pages
 
 # Known issues
 1. Changes to code processing do not automatically update existing recipes

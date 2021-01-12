@@ -6,7 +6,7 @@ if(isset($_POST['editFile'])) {
 	$fileName = $_POST['passFileName'];
 }
 /* global variable: location of recipe card html */
-$cardLib = "db_recipe_cards.txt";
+$cardLib = "data/db_recipe_cards.txt";
 
 /* ============================ BEGIN process saveChanges ============================ */
 if(isset($_POST['saveChanges'])) {
@@ -35,7 +35,7 @@ if(isset($_POST['saveChanges'])) {
 
 			/* ============================ BEGIN create dedicated page ============================ */
 			/* Obtain template for dedicated recipe page */
-			$template = file_get_contents('template_recipe.txt');
+			$template = file_get_contents('templates/template_recipe.txt');
 			/* Replace template variables with form data */
 			$template = str_replace("VAR_TITLE", $recipeTitle, $template);
 			$template = str_replace("VAR_PREP", $recipePrep, $template);
@@ -49,7 +49,7 @@ if(isset($_POST['saveChanges'])) {
 			/* ============================ END ============================ */
 
 			/* ============================ BEGIN create card ============================ */
-			$template = file_get_contents('template_card.txt');
+			$template = file_get_contents('templates/template_card.txt');
 			/* Replace template variables with form data */
 			$template = str_replace("VAR_TITLE", $recipeTitle, $template);
 			$template = str_replace("VAR_TAGS", $recipeTags, $template);
@@ -86,7 +86,7 @@ if(isset($_POST['saveChanges'])) {
 	<div class="container">
 		<h2>Update recipe</h2>
 		<!-- Form -->
-		<form action="edit_recipe.php" method="POST">
+		<form action="edit.php" method="POST">
 			<!-- Solicit recipe title -->
 			<div class="form-group">
 		    <label for="editTitle">Recipe name</label>
@@ -98,7 +98,7 @@ if(isset($_POST['saveChanges'])) {
 				<!-- Display and solicit recipe tags -->
 				<?php
 				/* Get all tags as array */
-				$allTags = explode(',', file_get_contents('db_tags.txt'));
+				$allTags = explode(',', file_get_contents('data/db_tags.txt'));
 				array_pop($allTags);
 				/* Get checked tags as array */
 				$recipeTags = explode(',', $recipeTags);
@@ -108,7 +108,7 @@ if(isset($_POST['saveChanges'])) {
 		        $checked = "checked";
 		      }
 					/* Get template for tag formatting */
-					$template = file_get_contents('template_tag.txt');
+					$template = file_get_contents('templates/template_tag.txt');
 					/* Replace checkbox template variable with form data */
 					$template = str_replace('VAR_TAG', $tag, $template);
 					$template = str_replace('VAR_CHECKED', $checked, $template);
