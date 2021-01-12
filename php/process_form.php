@@ -79,9 +79,9 @@ if(isset($_POST['deleteFile'])) {
 		/* Delete dedicated recipe page */
 		if (unlink($filePath)) {
 			/* Delete recipe card */
-			$oldCard = file_get_contents('../db_recipe_cards.txt');
+			$oldCard = file_get_contents($cardLib);
 			$newCard = preg_replace("#<!--BEGIN $fileName-->[\s\S]+?<!--END-->#s", "", $oldCard);
-			file_put_contents('../db_recipe_cards.txt', $newCard);
+			file_put_contents($cardLib, $newCard);
 			header("Location: https://darlingrosette.com/recipe/");
 			echo "This recipe has been successfully deleted. Redirecting...";
 		} else {

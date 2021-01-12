@@ -1,9 +1,70 @@
-<?php if(isset($_POST['editFile'])) {
+<?php
+if(isset($_POST['editFile'])) {
 	$recipeTitle = $_POST['passRecipeTitle'];
 	$recipePrep = $_POST['passRecipePrep'];
 	$recipeTags = $_POST['passRecipeTags'];
 	$fileName = $_POST['passFileName'];
-} ?>
+}
+/* global variable: location of recipe card html */
+$cardLib = "db_recipe_cards.txt";
+
+/* ============================ BEGIN process saveChanges ============================ */
+if(isset($_POST['saveChanges'])) {
+	$recipeTitle = trim(stripslashes(htmlspecialchars($_POST['editTitle'])));
+	$recipePrep = trim(stripslashes($_POST['editPrep']));
+	$recipeTags = $_POST['recipeTags'];
+	$recipeTags = implode(',', $recipeTags);
+	$oldFileName = $_POST['oldFileName'];
+
+	/* Remove spaces from title for filename */
+	$tempFileName = preg_replace("/\s+/", "", $recipeTitle);
+	/* Check for existing recipe */
+	if (file_exists("../pages/$tempFileName.php")) {
+		$tempFileName .= rand();
+	}
+	$fileName = $tempFileName;
+	$filePath = "pages/$fileName.php";
+
+	/* Remove original recipe page */
+	if (file_exists("pages/$oldFileName.php")) {
+		if (unlink("pages/$oldFileName.php")) {
+			/* Remove original card */
+			$oldCard = file_get_contents($cardLib);
+			$newCard = preg_replace("#<!--BEGIN $oldFileName-->[\s\S]+?<!--END-->#s", "", $oldCard);
+			file_put_contents($cardLib, $newCard);
+
+			/* ============================ BEGIN create dedicated page ============================ */
+			/* Obtain template for dedicated recipe page */
+			$template = file_get_contents('template_recipe.txt');
+			/* Replace template variables with form data */
+			$template = str_replace("VAR_TITLE", $recipeTitle, $template);
+			$template = str_replace("VAR_PREP", $recipePrep, $template);
+			$template = str_replace("VAR_TAGS", $recipeTags, $template);
+			$template = str_replace("VAR_FILENAME", $fileName, $template);
+			/* Create dedicated recipe page for this recipe */
+			$newFile = fopen($filePath, "w") or die("can't open $filePath");
+			/* Write recipe data to file */
+			fwrite($newFile, $template);
+			fclose($newFile);
+			/* ============================ END ============================ */
+
+			/* ============================ BEGIN create card ============================ */
+			$template = file_get_contents('template_card.txt');
+			/* Replace template variables with form data */
+			$template = str_replace("VAR_TITLE", $recipeTitle, $template);
+			$template = str_replace("VAR_TAGS", $recipeTags, $template);
+			$template = str_replace("VAR_FILENAME", $fileName, $template);
+			/* Append this card to existing recipe cards */
+			$newFile = fopen($cardLib, "a") or die("can't open $cardLib");
+			fwrite($newFile, $template);
+			fclose($newFile);
+			/* ============================ END ============================ */
+			/* Redirect to new file */
+			header("Location: $filePath");
+		}
+	}
+} /* ============================ END ============================ */
+?>
 
 <!doctype html>
 <html lang="en">
@@ -63,7 +124,7 @@
 			</div>
 
 			<!-- Submit form data -->
-			<input type="hidden" name="passFileName" value="<?php echo $fileName;?>">
+			<input type="hidden" name="oldFileName" value="<?php echo $fileName;?>">
 			<button class="btn btn-primary btn-block mt-3" name="saveChanges" type="submit">Save changes</button>
 		</form>
 	</div>
