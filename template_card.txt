@@ -1,8 +1,8 @@
-<!--BEGIN VAR_FILENAME -->
+<!--BEGIN VAR_FILENAME-->
 <div class="card mb-3" name="VAR_FILENAME">
 	<div class="card-body">
-		<h5 class="card-title"><a href="pages/VAR_FILENAME.htm">VAR_TITLE</a></h5>
-		Tags TBD
+		<h5 class="card-title"><a href="pages/VAR_FILENAME.php">VAR_TITLE</a></h5>
+		VAR_TAGS
 	</div>
 </div>
 <!--END-->
