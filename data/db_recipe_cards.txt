@@ -1,1 +1,1 @@
-<!-- Contains HTML for recipe cards -->
+<!-- Contains autopopulated HTML for recipe cards -->
