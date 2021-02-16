@@ -2,13 +2,14 @@
  PHP recipe manager using Bootstrap 4 and TinyMCE 5
 
 # Implemented features
-1. Add a recipe via HTML/PHP form.
+
+## 1/ Add a recipe via HTML/PHP form.
 - Recipe form data is formatted in HTML and stored in a dedicated .php file
 - Filenames are created from the submitted [recipeTitle]
 - The submitted data is displayed on its new, dedicated webpage
 - If the filename exists, append a random integer
 
-2. Format recipe ingredients and preparation information using TinyMCE, implemented via CDN. The editor is modified to include only
+## 2/ Format recipe ingredients and preparation information using TinyMCE, implemented via CDN. The editor is modified to include only
 - **bold**
 - _italics_
 - ~~strikethrough~~
@@ -16,21 +17,21 @@
 - bulleted lists
 - numbered lists
 
-3. View all recipes
+## 3/ View all recipes
 - Displays all recipe titles with tags
 - Card titles link to dedicated recipe page
 - Bootstrap cards are arranged in a card deck for easy responsiveness
 
-4. Delete recipe
+## 4/ Delete recipe
 - Initiated from dedicated recipe page
 - Removes [recipeTitle].php from pages/
 - Removes associated div.card from lib_recipe_cards
 
-5. Add tags one at a time
+## 5/ Add tags one at a time
 - Adds tag to comma-separated .txt file
 - Tags are formatted at time of printing
 
-6. Modify recipe
+## 6/ Modify recipe
 - Initiated from dedicated recipe page
 - Removes original dedicated recipe page from pages/
 - Removes associated div.card from lib_recipe_cards
