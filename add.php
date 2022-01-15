@@ -85,6 +85,9 @@ if(isset($_POST['deleteFile'])) {
 		<?php include 'php/_nav.php'; ?>
 		<!-- BEGIN add recipe -->
 		<h2>Add a recipe</h2>
+		<div class="alert alert-warning" role="alert">
+		  Remember to refresh the page before form submission!
+		</div>
 		<form action="add.php" method="POST">
 			<!-- Solicit recipe title -->
 			<div class="form-group">
