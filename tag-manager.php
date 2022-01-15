@@ -20,6 +20,30 @@ if(isset($_POST['addTag'])) {
 }
 /* ============================ END ============================ */
 
+/* ============================ BEGIN process removeTag ============================ */
+if(isset($_POST['removeTag'])) {
+	/* Get tags to be removed */
+	$toRemove = $_POST['recipeTags'];
+	$toRemove = implode(',', $toRemove);
+	foreach ($toRemove as $tag) {
+		/* Remove tag from pages/* */
+		foreach (glob("pages/*") as $file) {
+	    $content = file_get_contents("pages/$file");
+			/* If tag is found on recipe page, remove all occurrences */
+	    if (strpos($content, $tag) !== false) {
+        $newContent = str_replace($tag, "", $content);
+				file_put_contents("pages/$file", $newContent);
+	    }
+		}
+		/* Remove tag from data/db_tags */
+		$oldTags = file_get_contents($dbTags);
+		$newTags = str_replace($tag.",", "", $oldTags);
+		file_put_contents($dbTags, $newTags);
+	}
+	/* Redirect to addTag form */
+	header("Location: https://darlingrosette.com/recipe/tag-manager.php");
+}
+/* ============================ END ============================ */
 ?>
 
 <?php require 'php/_head.php'; ?>
@@ -37,7 +61,7 @@ if(isset($_POST['addTag'])) {
 			<div class="form-row">
 				<label class="col-form-label" for="tagName">Name of tag </label>
 				<div class="col-sm-5">
-					<input type="text" class="form-control" required name="tagName">
+					<input type="text" class="form-control" required autofocus name="tagName">
 				</div>
 				<div class="col-sm-3">
 					<button class="btn btn-primary btn-block" name="addTag" type="submit">Add tag</button>
