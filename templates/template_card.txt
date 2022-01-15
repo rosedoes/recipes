@@ -6,7 +6,7 @@
 		if (!empty($recipeTags)) {
 			echo "<ul class=\"list-inline\">";
 			foreach ($recipeTags as $tag) {
-				echo "<li class=\"list-inline-item\">$tag</li>";
+				echo "<!--TAG-$tag--><li class=\"list-inline-item\">$tag</li><!--END-->";
 			}
 			echo "</ul>";
 		} else { echo "<p>This recipe is untagged.</p>"; }
