@@ -1,0 +1,11 @@
+breakfast
+dinner
+van ok
+veg ok
+chicken ok
+beef
+sweets
+nobake
+bread
+cookie
+favorite
