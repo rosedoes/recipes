@@ -7,7 +7,7 @@ if(isset($_POST['addTag'])) {
 
 	/* Check if tag already exists */
 	if(strpos(file_get_contents($dbTags), $tagName) !== false) {
-		echo "This tag already exists. Add a recipe!";
+		echo "This tag already exists. <a href=\"/add.php\">Add a recipe!</a>";
 	} else {
 		/* Open tag db */
 		$tagDb = fopen($dbTags, "a") or die("can't open $dbTags");
@@ -22,23 +22,27 @@ if(isset($_POST['addTag'])) {
 
 /* ============================ BEGIN process removeTag ============================ */
 if(isset($_POST['removeTag'])) {
-	/* Get tags to be removed */
-	$toRemove = $_POST['recipeTags'];
-	$toRemove = implode(',', $toRemove);
-	foreach ($toRemove as $tag) {
-		/* Remove tag from pages/* */
-		foreach (glob("pages/*") as $file) {
-	    $content = file_get_contents("pages/$file");
-			/* If tag is found on recipe page, remove all occurrences */
-	    if (strpos($content, $tag) !== false) {
-        $newContent = str_replace($tag, "", $content);
-				file_put_contents("pages/$file", $newContent);
-	    }
+	/* Identify checked tags for removal */
+	if(isset($_POST['recipeTags'])) {
+		$tagList = fopen($dbTags, "a");
+		/* Iterate through each checked tag */
+		foreach ($_POST['recipeTags'] as $tag) {
+			/* Iterate through recipes to find tag instances */
+			foreach (glob("pages/*") as $page) {
+				$recipe = file_get_contents($page);
+				/* Remove tag from recipe */
+				$recipe = preg_replace($tag.',', "", $page);
+				file_put_contents($page, $recipe);
+			}
+
+			/* Remove tag from cards */
+
+
+			/* Remove tag from tag database */
+			$updatedTags = preg_replace("$tag,", "", $tagList);
+			fwrite($tagList, $updatedTags);
 		}
-		/* Remove tag from data/db_tags */
-		$oldTags = file_get_contents($dbTags);
-		$newTags = str_replace($tag.",", "", $oldTags);
-		file_put_contents($dbTags, $newTags);
+		fclose($tagList);
 	}
 	/* Redirect to addTag form */
 	header("Location: https://darlingrosette.com/recipe/tag-manager.php");
