@@ -1,3 +1,5 @@
+Update: I am using Notion for this purpose. It satisfies all requirements.
+
 # recipes
  PHP recipe manager using Bootstrap 4 and TinyMCE 5
 
